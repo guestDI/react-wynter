@@ -9,8 +9,8 @@ const Input: React.FC<InputProps> = ({error, label, ...props}) => {
     return(
         <div style={{width: '100%'}}>
             <label>{label}</label>
-            <input {...props}/>
-            <div>{error}</div>
+            <input style={{width: '100%'}} {...props}/>
+            {error && <div>{error}</div>}
         </div>
     )
 }

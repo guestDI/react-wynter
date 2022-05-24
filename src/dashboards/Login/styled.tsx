@@ -1,5 +1,23 @@
 import styled from "styled-components"
 
+export const StyledForm = styled.form`
+  width: 40rem;
+
+  .form-controls {
+    width: 70%;
+    margin: 0 auto;
+
+    div:first-of-type {
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+  }
+`
+
 export const StyledFormHeader = styled.h1`
   font-size: 3.5rem;
   font-weight: 600;
@@ -31,29 +49,6 @@ export const StyledSeparator = styled.div`
   &:after {
     left: 0.5em;
     margin-right: -50%;
-  }
-`
-
-export const StyledButton = styled.button`
-  font-size: 1rem;
-  font-weight: 700;
-  text-align: center;
-  border-radius: 0.4rem;
-  padding: 0.6rem;
-`
-
-export const StyledFormButton = styled(StyledButton)`
-  margin-top: 1rem;
-  box-shadow: 0 0.4rem 1.2rem rgba(255, 114, 94, 0.2);
-  border: 0.1rem solid #eaeaea;
-  color: #fff;
-  background-color: #ff725e;
-
-  &:hover,
-  &:focus {
-    background-color: #ef6e5c;
-    color: #fff;
-    cursor: pointer;
   }
 `
 

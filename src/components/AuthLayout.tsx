@@ -24,7 +24,7 @@ export const StyledImageBoxWrapper = styled.div`
   background-position: center;
 `
 
-const AuthLayout: React.FC<{children: React.ReactNode;}> = ({ children }) => {
+const AuthLayout: React.FC<{children: React.ReactNode}> = ({ children }) => {
 	return (
 		<StyledPageContainer>
 			<StyledBoxWrapper>{children}</StyledBoxWrapper>
