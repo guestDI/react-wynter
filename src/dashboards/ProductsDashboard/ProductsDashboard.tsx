@@ -1,29 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { generateColumns } from "../../components/Table/helpers";
 import Table from "../../components/Table/Table";
+import { useFetch } from "../../hooks/useFetch";
+
+const url = 'https://react-wynter-default-rtdb.europe-west1.firebasedatabase.app/products.json'
 
 const ProductsDashboard: React.FC = () => {
-    const [products, setProducts] = useState([])
-    const [httpError, setHttpError] = useState() 
-    // const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await fetch('https://react-wynter-default-rtdb.europe-west1.firebasedatabase.app/products.json')
-
-            if(!response.ok){
-                throw new Error("Products can't be loaded. Please try later")
-            }
-
-            const data = await response.json()
-
-            setProducts(data)
-        }
-        
-        fetchProducts().catch(error => {
-            setHttpError(error.message)
-        })
-    }, [])
+    const { status, httpError, data: products } = useFetch(url);
 
     const columns = useMemo(() => {
         if(products){
@@ -31,6 +14,10 @@ const ProductsDashboard: React.FC = () => {
         }
         return []
     }, [products])
+
+    if(status === "fetching"){
+        return <h4>Fetching...</h4>
+    }
 
     if(httpError){
         return <div>{httpError}</div>

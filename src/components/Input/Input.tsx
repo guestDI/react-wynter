@@ -1,24 +1,20 @@
 import React, { useCallback } from 'react'
-import { StyledInput, StyledInputContainer } from './styled'
+import { StyledInput } from './styled'
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
-  label: string
   type?: string
   value?: string
   placeholder?: string
   onChange?: (value: string) => void
-  error?: string
 }
 
 const Input: React.ForwardRefRenderFunction<HTMLInputElement,InputProps> = (
     {
       type = "text",
-      label,
       value,
       onChange,
-      error = false,
-      placeholder = "Type your answer here...",
+      placeholder,
       ...props
     },
     ref,
@@ -33,19 +29,14 @@ const Input: React.ForwardRefRenderFunction<HTMLInputElement,InputProps> = (
       )
 
     return(
-        <StyledInputContainer>
-            <label>{label}</label>
-            <StyledInput
-                value={value ?? ""}
-                onChange={handleOnChange}
-                ref={ref}
-                type={type}
-                placeholder={placeholder}
-                aria-invalid={error ? "true" : "false"}
-                {...props}
-            />
-            {error && <div>{error}</div>}
-        </StyledInputContainer>
+      <StyledInput
+        value={value ?? ""}
+        onChange={handleOnChange}
+        ref={ref}
+        type={type}
+        placeholder={placeholder}
+        {...props}
+      />
     )
 }
 

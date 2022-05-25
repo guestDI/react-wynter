@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button } from "../../components";
+import { Input, Button, FormItem } from "../../components";
 import { GoogleLogin } from 'react-google-login';
 import AuthLayout from "../../components/AuthLayout";
 import { StyledFormHeader, StyledSeparator, StyledForm } from "./styled"
@@ -35,8 +35,12 @@ const Login: React.FC = () => {
 			<StyledForm noValidate>
                 <StyledSeparator>LOG IN WITH EMAIL</StyledSeparator>
                     <div className="form-controls">
-                        <Input value={email} onChange={onEmailChanged} placeholder="Please enter your email" label="Email"/>
-                        <Input value={password} onChange={onPasswordChanged} label="Password" placeholder="Please enter your password"/>
+                        <FormItem label="Email">
+                            <Input value={email} onChange={onEmailChanged} placeholder="Please enter your email" />
+                        </FormItem>
+                        <FormItem label="Password">
+                            <Input value={password} onChange={onPasswordChanged} placeholder="Please enter your password"/>
+                        </FormItem>
                         <Button onClick={() => {}}>
                             Log in
                         </Button>

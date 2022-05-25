@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Input from "../../Input/Input";
 
 interface PaginationProps {
     gotoPage: (page: number) => void
@@ -20,21 +21,40 @@ const StyledPagination = styled.div`
     justify-content: space-between;
 
     button {
-        background: #fff;
-        border: 1px solid #9c9c9c;
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 4px;
+      background: #fff;
+      border: 1px solid #9c9c9c;
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 4px;
 
-        &:hover {
-          cursor: pointer;
-          background: #ff725e;
-          color: #fff;
-          border-color: #ff725e;
-          font-weight: 600;
+      &:hover {
+        cursor: pointer;
+        background: #ff725e;
+        color: #fff;
+        border-color: #ff725e;
+        font-weight: 600;
+      }
+
+      margin-right: 0.4rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: end;
+
+      .page-selector {
+        margin-left: 1rem;
+
+        span {
+          margin-right: 0.4rem;
+          font-size: 1rem;
         }
+      }
 
-        margin-right: 0.4rem;
+      .vl {
+        border-left: 1px solid #9c9c9c;
+        height: 40px;
+      }
     }
 
     .total {
@@ -50,27 +70,27 @@ const Pagination: React.FC<PaginationProps> = ({gotoPage, next, previous, canPre
             <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
               First
             </button>
-            <button onClick={() => previous()} disabled={!canPreviousPage}>
+            <button onClick={previous} disabled={!canPreviousPage}>
               Prev
             </button>
-            <button onClick={() => next()} disabled={!canNextPage}>
+            <button onClick={next} disabled={!canNextPage}>
               Next
             </button>
             <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
               Last
             </button>
-            <span>
-            | Go to page:{' '}
-            <input
-              type="number"
-              defaultValue={pageIndex + 1}
-              onChange={e => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
-              }}
-              style={{ width: '100px' }}
-            />
-            </span>
+            <div className="page-selector">
+              <span>Go to page:</span>
+              <Input
+                type="number"
+                value={(pageIndex + 1).toString()}
+                onChange={value => {
+                  const page = value ? Number(value) - 1 : 0
+                  gotoPage(page)
+                }}
+                style={{ width: '100px' }}
+              />
+            </div>
           </div>
           <span className="total">
             Page{' '}

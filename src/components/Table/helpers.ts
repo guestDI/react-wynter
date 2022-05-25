@@ -8,7 +8,7 @@ export const generateColumns = (items: Product[]) => {
     return item ? Object.keys(item).reduce<Column[]>((accumulator, item) => {
         const column = {
             'Header': item,
-            accessor: item
+            accessor: item,
         }
 
         return [...accumulator, column]

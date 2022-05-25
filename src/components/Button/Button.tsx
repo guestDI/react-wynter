@@ -1,8 +1,8 @@
-import React, { PropsWithChildren, ReactElement } from "react";
+import React from "react";
 import { StyledButton } from './styled'
 
 interface ButtonProps {
-    children?: React.ReactNode
+    children: React.ReactNode
     onClick: () => void
 }
 

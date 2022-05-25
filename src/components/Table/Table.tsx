@@ -6,7 +6,7 @@ import Pagination from "./components/Pagination";
 
 const StyledTableContainer = styled.div`
   width: 100vw;
-  height: calc(100vh - 3rem);
+  height: calc(100vh - 3.5rem);
   padding: 1.6rem;
 `
 
@@ -14,10 +14,10 @@ const Styles = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+  box-shadow: 0px 3px 22px -12px rgba(66, 68, 90, 1);
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
 
     tr {
       :last-child {
@@ -31,8 +31,8 @@ const Styles = styled.div`
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 1px solid #9c9c9c;
+      border-right: 1px solid #9c9c9c;
 
       :last-child {
         border-right: 0;
@@ -51,7 +51,6 @@ const Table: React.FC<TableProps> = ({ columns, data=[] }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
         page,
         prepareRow,
         canPreviousPage,
@@ -61,8 +60,7 @@ const Table: React.FC<TableProps> = ({ columns, data=[] }) => {
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize },
+        state: { pageIndex },
       } = useTable({
         columns,
         data,
