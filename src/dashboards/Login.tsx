@@ -1,25 +1,14 @@
 import React, { useState } from "react";
-import { Input, Button, FormItem } from "../../components";
+import { Input, Button, FormItem } from "../components";
 import { GoogleLogin } from 'react-google-login';
-import AuthLayout from "../../components/AuthLayout";
-import { StyledFormHeader, StyledSeparator, StyledForm } from "./styled"
-
-// const emailRules = {
-// 	required: "Please enter your email address",
-// 	pattern: {
-// 		value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-// 		message: "Enter a valid e-mail address",
-// 	},
-// }
-
-// const passwordRules = {
-// 	required: "Please enter your password",
-// }
-
+import AuthLayout from "../components/AuthLayout";
+import { StyledForm, StyledFormHeader, StyledSeparator } from "../components/StyledComponentsBase";
+import { useNavigate } from "react-router-dom"
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     const onEmailChanged = (value: string) => {
         setEmail(value)
@@ -57,9 +46,10 @@ const Login: React.FC = () => {
                         onFailure={() => {}}
                         cookiePolicy={'single_host_origin'} 
                     />
-                </div>
-                
+                </div>     
             </StyledForm>
+            <StyledSeparator>OR</StyledSeparator>
+            <Button onClick={() => navigate("/signUp")}>Sign Up</Button>
         </AuthLayout>
     )
 }
