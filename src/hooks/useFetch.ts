@@ -34,7 +34,7 @@ export const useFetch = (url: string) => {
         fetchData().catch(error => {
             setHttpError(error.message)
         })
-    }, [url]);
+    }, [url, cache]);
 
     return { status, httpError, data };
 };
