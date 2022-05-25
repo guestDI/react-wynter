@@ -37,7 +37,7 @@ const ProductsDashboard: React.FC = () => {
     }
 
     return (
-        <Table columns={columns}/>
+        <Table columns={columns} data={products}/>
     )
 }
 

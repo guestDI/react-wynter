@@ -1,6 +1,6 @@
-type Product = Record<string, string>
+import { Column } from "react-table"
 
-type Column = Record<string, string | number>
+type Product = Record<string, string>
 
 export const generateColumns = (items: Product[]) => {
     const item = items[0]
