@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { FormItem, Input } from "../../components";
+import { FormItem, Input, Toggle } from "../../components";
 import { generateColumns } from "../../components/Table/helpers";
 import Table from "../../components/Table/Table";
 import { useFetch } from "../../hooks/useFetch";
-import { StyledSearchContainer, StyledBasicBlock } from "./styled";
+import { StyledHeaderContainer, StyledBasicBlock } from "./styled";
 
 const usersUrl = 'https://react-wynter-d6cb5-default-rtdb.europe-west1.firebasedatabase.app/users.json'
 
@@ -39,11 +39,18 @@ const ProductsDashboard: React.FC = () => {
 
     return (
         <>
-            <StyledSearchContainer>
-                <FormItem label="Find by name">
-                    <Input onChange={onSearchKeywordChanged} value={searchKeyword}/>
-                </FormItem>
-            </StyledSearchContainer>
+            <StyledHeaderContainer>
+                <div className="search">
+                    <FormItem label="Find by name">
+                        <Input onChange={onSearchKeywordChanged} value={searchKeyword}/>
+                    </FormItem>
+                </div>
+                <div className="filter">
+                    <Toggle>
+                        Show only featured products
+                    </Toggle>
+                </div>
+            </StyledHeaderContainer>
             <Table columns={columns} data={filteredProducts}/>
         </>
     )
