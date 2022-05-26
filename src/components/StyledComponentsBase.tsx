@@ -10,10 +10,6 @@ export const StyledForm = styled.form`
     div:first-of-type {
       margin-bottom: 1.2rem;
     }
-
-    input:first-of-type {
-      margin-bottom: 1rem;
-    }
   }
 
   .btn-container {
