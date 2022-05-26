@@ -5,17 +5,15 @@ import Table from "../../components/Table/Table";
 import { useFetch } from "../../hooks/useFetch";
 import { StyledSearchContainer, StyledBasicBlock } from "./styled";
 
-const url = 'https://react-wynter-default-rtdb.europe-west1.firebasedatabase.app/products.json'
+const usersUrl = 'https://react-wynter-d6cb5-default-rtdb.europe-west1.firebasedatabase.app/users.json'
 
 const ProductsDashboard: React.FC = () => {
     const [searchKeyword, setSearchKeyword] = useState('')
-    const { status, httpError, data: products } = useFetch(url);
+    const { status, httpError, data: products } = useFetch(`${process.env.REACT_APP_DB}/products.json` || "");
 
     const columns = useMemo(() => {
         return generateColumns(products)
     }, [products])
-
-    // console.log(products)
 
     const onSearchKeywordChanged = useCallback((value: string) => {
         setSearchKeyword(value)
