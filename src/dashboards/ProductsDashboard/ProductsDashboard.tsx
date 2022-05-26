@@ -9,6 +9,7 @@ const usersUrl = 'https://react-wynter-d6cb5-default-rtdb.europe-west1.firebased
 
 const ProductsDashboard: React.FC = () => {
     const [searchKeyword, setSearchKeyword] = useState('')
+    const [showFeatured, setShowFeatured] = useState(false)
     const { status, httpError, data: products } = useFetch(`${process.env.REACT_APP_DB}/products.json` || "");
 
     const columns = useMemo(() => {
@@ -19,11 +20,30 @@ const ProductsDashboard: React.FC = () => {
         setSearchKeyword(value)
     }, [])
 
+    const toggleFeatured = useCallback((checked: boolean) => {
+        setShowFeatured(checked)
+    }, [])
+
     const filteredProducts = useMemo(() => {
+        const filters = {
+            includesKeyword: (item: Record<string, string>) => item["Name"].includes(searchKeyword),
+            showFeatured: (item: Record<string, string>) => item["Is featured?"] == "1"
+        }
+
+        let selectedFilters: any = []
+
+        if(searchKeyword){
+            selectedFilters.push(filters.includesKeyword)
+        }
+
+        if(showFeatured){
+            selectedFilters.push(filters.showFeatured)
+        }
+
         return products.filter((item: Record<string, string>) => {
-            return item["Name"].includes(searchKeyword)
+            return selectedFilters.every((f: any) => f(item))
         })
-    }, [products, searchKeyword])
+    }, [products, searchKeyword, showFeatured])
 
     if(status === "fetching"){
         return <StyledBasicBlock>
@@ -46,7 +66,7 @@ const ProductsDashboard: React.FC = () => {
                     </FormItem>
                 </div>
                 <div className="filter">
-                    <Toggle>
+                    <Toggle onChange={toggleFeatured} value={showFeatured}>
                         Show only featured products
                     </Toggle>
                 </div>
