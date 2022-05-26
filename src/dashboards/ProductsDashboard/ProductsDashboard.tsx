@@ -3,7 +3,7 @@ import { FormItem, Input } from "../../components";
 import { generateColumns } from "../../components/Table/helpers";
 import Table from "../../components/Table/Table";
 import { useFetch } from "../../hooks/useFetch";
-import { StyledSearchContainer } from "./styled";
+import { StyledSearchContainer, StyledBasicBlock } from "./styled";
 
 const url = 'https://react-wynter-default-rtdb.europe-west1.firebasedatabase.app/products.json'
 
@@ -28,11 +28,15 @@ const ProductsDashboard: React.FC = () => {
     }, [products, searchKeyword])
 
     if(status === "fetching"){
-        return <h4>Fetching...</h4>
+        return <StyledBasicBlock>
+            <h2 style={{padding: '2rem'}}>Fetching...</h2>
+        </StyledBasicBlock>
     }
 
     if(httpError){
-        return <div>{httpError}</div>
+        return <StyledBasicBlock>
+            <h3 style={{padding: '2rem'}}>{httpError}</h3>
+        </StyledBasicBlock>
     }
 
     return (

@@ -9,3 +9,9 @@ export const StyledSearchContainer = styled.div`
         font-size: 1rem;
     }
 `
+
+export const StyledBasicBlock = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;    
+`
