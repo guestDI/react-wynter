@@ -1,14 +1,14 @@
 import React from "react";
 import { StyledButton } from './styled'
 
-interface ButtonProps {
-    children: React.ReactNode
-    onClick: () => void
-}
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+    type?: "button" | "submit"
+  }
 
-const Button: React.FC<ButtonProps> = ({onClick, children, ...props}) => {
+const Button: React.FC<ButtonProps> = ({onClick, type = "button", children, ...props}) => {
     return (
-        <StyledButton onClick={onClick} {...props}>
+        <StyledButton type={type} onClick={onClick} {...props}>
             {children}
         </StyledButton>
     )

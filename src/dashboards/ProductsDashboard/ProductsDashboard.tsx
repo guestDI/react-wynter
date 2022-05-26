@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { FormItem, Input, Toggle } from "../../components";
 import { generateColumns } from "../../components/Table/helpers";
 import Table from "../../components/Table/Table";
-import { useFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks";
 import { StyledHeaderContainer, StyledBasicBlock } from "./styled";
 
 const usersUrl = 'https://react-wynter-d6cb5-default-rtdb.europe-west1.firebasedatabase.app/users.json'
