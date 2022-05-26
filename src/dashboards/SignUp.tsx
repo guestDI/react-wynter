@@ -4,6 +4,8 @@ import { GoogleLogin } from 'react-google-login';
 import AuthLayout from "../components/AuthLayout";
 import { StyledForm, StyledFormHeader, StyledSeparator } from "../components/StyledComponentsBase";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+import { useFetch } from "../hooks";
 
 const emailMessage = "Incorrect email"
 const passwordMessage = "Incorrect password"
@@ -20,7 +22,7 @@ const submit = async (email: string, cb: () => void ) => {
     })
 }
 
-const Login: React.FC = () => {
+const SignUp: React.FC = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -29,6 +31,9 @@ const Login: React.FC = () => {
         password: ""
     })
     const navigate = useNavigate()
+    const { login } = useAuthContext()
+
+    const { data: users } = useFetch(`${process.env.REACT_APP_DB}/users.json` || "");
 
     const onEmailChanged = (value: string) => {
         setEmail(value)
@@ -42,6 +47,21 @@ const Login: React.FC = () => {
         setConfirmPassword(value)
     }
 
+    const signUp = useCallback(() => {
+        const userExists = Object.values(users).find((user: Record<string, string>) => {
+           return user.email === email
+        })
+
+        console.log(userExists)
+
+        if(userExists){
+            navigate("/")
+        } else {
+            login()
+            navigate("/dashboard")
+        }
+    }, [users, login, navigate, email])
+
     const handleSubmit = useCallback(() => {
         const emailError = !email.length ? emailMessage : ""
         const passwordError = password.length && password === confirmPassword ? "" : password !== confirmPassword ? confirmPasswordMessage : passwordMessage
@@ -52,7 +72,7 @@ const Login: React.FC = () => {
         })
 
         if(!emailError && !passwordError){
-            submit(email, () => navigate("/dashboard"))
+            submit(email, signUp)
         }
 
     }, [email, password, confirmPassword, navigate])
@@ -96,4 +116,4 @@ const Login: React.FC = () => {
     )
 }
 
-export default Login
+export default SignUp

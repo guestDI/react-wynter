@@ -1,24 +1,27 @@
 import React, { useContext, useEffect,useState } from "react"
 
 interface AuthContextProps {
-  userRights: string[]
+	isUserLoggedIn: boolean
+	login: () => void
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
-	userRights: []
+	isUserLoggedIn: false,
+	login: () => {}
 })
 
 export const useAuthContext = () => useContext(AuthContext)
 
 export const AuthContextProvider = ({ children }: {children: any}) => {
-	const [userRights, setUserRights] = useState<string[]>([])
+	const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false)
 
-	useEffect(() => {
-		setUserRights(["superadmin"])
-	}, [setUserRights])
+	const login = () => {
+		setIsUserLoggedIn(true)
+	}
 
 	const context = {
-		userRights
+		isUserLoggedIn,
+		login
 	}
 
 	return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

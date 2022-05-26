@@ -5,8 +5,6 @@ import Table from "../../components/Table/Table";
 import { useFetch } from "../../hooks";
 import { StyledHeaderContainer, StyledBasicBlock } from "./styled";
 
-const usersUrl = 'https://react-wynter-d6cb5-default-rtdb.europe-west1.firebasedatabase.app/users.json'
-
 const ProductsDashboard: React.FC = () => {
     const [searchKeyword, setSearchKeyword] = useState('')
     const [showFeatured, setShowFeatured] = useState(false)
@@ -27,7 +25,7 @@ const ProductsDashboard: React.FC = () => {
     const filteredProducts = useMemo(() => {
         const filters = {
             includesKeyword: (item: Record<string, string>) => item["Name"].includes(searchKeyword),
-            showFeatured: (item: Record<string, string>) => item["Is featured?"] == "1"
+            showFeatured: (item: Record<string, string>) => Boolean(item["Is featured?"])
         }
 
         let selectedFilters: any = []
