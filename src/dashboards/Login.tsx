@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
     return (
         <AuthLayout>
-        <StyledFormHeader>Welcome Back</StyledFormHeader>
+            <StyledFormHeader>Welcome Back</StyledFormHeader>
 			<StyledForm noValidate>
                 <StyledSeparator>LOG IN WITH EMAIL</StyledSeparator>
                     <div className="form-controls">
@@ -42,14 +42,15 @@ const Login: React.FC = () => {
                     <GoogleLogin
                         clientId="611176137432-nuq0crbc6gic387rb0pu4clglb2n7hrq.apps.googleusercontent.com"
                         buttonText="Log in with Google"
-                        onSuccess={() => {console.log('success')}}
-                        onFailure={() => {}}
+                        onSuccess={(e) => {console.log(e, 'success')}}
+                        onFailure={(e) => {console.log(e, 'failure')}}
                         cookiePolicy={'single_host_origin'} 
+                        className="google-btn"
                     />
-                </div>     
+                    <span>OR</span>
+                    <button className="link" onClick={() => navigate("/signUp")}>Sign Up</button>  
+                </div>   
             </StyledForm>
-            <StyledSeparator>OR</StyledSeparator>
-            <Button onClick={() => navigate("/signUp")}>Sign Up</Button>
         </AuthLayout>
     )
 }

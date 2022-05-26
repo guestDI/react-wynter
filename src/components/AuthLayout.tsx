@@ -4,8 +4,7 @@ import React from "react"
 export const StyledPageContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
-  min-height: 100vh;
+  height: 100vh;
 `
 
 export const StyledBoxWrapper = styled.div`
@@ -14,14 +13,7 @@ export const StyledBoxWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1 1 100%;
-  padding: 6rem 10rem;
-`
-
-export const StyledImageBoxWrapper = styled.div`
-  background-size: 90%;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  padding: 1rem 10rem;
 `
 
 const AuthLayout: React.FC<{children: React.ReactNode}> = ({ children }) => {

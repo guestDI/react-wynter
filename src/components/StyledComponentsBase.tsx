@@ -17,8 +17,24 @@ export const StyledForm = styled.form`
   }
 
   .btn-container {
+    width: 45%;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .link {
+    background:none;
+    border:none; 
+    padding: 0;
+    color: #9c9c9c;
+    text-decoration: underline;
+
+    &:hover{
+      text-decoration: none;
+      cursor: pointer;
+    }
   }
 `
 

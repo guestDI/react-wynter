@@ -54,11 +54,10 @@ const Login: React.FC = () => {
                         onFailure={() => {}}
                         cookiePolicy={'single_host_origin'} 
                     />
-                </div>
-                
+                    <span>OR</span>
+                    <button className="link" onClick={() => navigate("/")}>Sign In</button>  
+                </div> 
             </StyledForm>
-            <StyledSeparator>OR</StyledSeparator>
-            <Button onClick={() => navigate("/")}>Sign In</Button>
         </AuthLayout>
     )
 }
