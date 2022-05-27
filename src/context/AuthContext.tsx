@@ -4,7 +4,7 @@ import { useFetch } from "../hooks"
 interface AuthContextProps {
 	isUserLoggedIn: boolean
 	login: () => void
-	checkIfUserExists: (user: string) => boolean
+	checkIfUserExists: (users: Record<string, string>[], user: string) => boolean
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
@@ -15,16 +15,25 @@ const AuthContext = React.createContext<AuthContextProps>({
 
 export const useAuthContext = () => useContext(AuthContext)
 
-export const AuthContextProvider = ({ children }: {children: any}) => {
-	const { data: users } = useFetch(`${process.env.REACT_APP_DB}/users.json` || "")
+// const checkUserExists = async (email: string, cb: () => void ) => {
+// 	await fetch(`${process.env.REACT_APP_DB}/users.json`, {
+// 			method: "POST",
+// 			body: JSON.stringify({
+// 					email
+// 			}) 
+// 	}).then(() => {
+// 			cb()
+// 	})
+// }
 
+export const AuthContextProvider = ({ children }: {children: any}) => {
 	const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(false)
 
-	const checkIfUserExists = useCallback((userIdentifier: string) => {
+	const checkIfUserExists = useCallback((users: Record<string, string>[], userIdentifier: string) => {
 		return !!Object.values(users).find((user: Record<string, string>) => {
 			return user.email === userIdentifier
 		 })
-	}, [users])
+	}, [])
 
 	const login = () => {
 		setIsUserLoggedIn(true)

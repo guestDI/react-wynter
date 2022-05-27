@@ -5,30 +5,15 @@ import AuthLayout from "../components/AuthLayout";
 import { StyledForm, StyledFormHeader, StyledSeparator } from "../components/StyledComponentsBase";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-
-const emailMessage = "Incorrect email"
-const passwordMessage = "Incorrect password"
-const confirmPasswordMessage = "Passwords not match"
-
-const submit = async (email: string, cb: () => void ) => {
-    await fetch(`${process.env.REACT_APP_DB}/users.json`, {
-        method: "POST",
-        body: JSON.stringify({
-            email
-        }) 
-    }).then(() => {
-        cb()
-    })
-}
+import { useFetch, useValidate } from "../hooks";
 
 const SignUp: React.FC = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
-    const [errors, setErrors] = useState({
-        email: "",
-        password: ""
-    })
+    const [confirmedPassword, setConfirmedPassword] = useState("")
+    const { errors, validate } = useValidate()
+    const { data: users } = useFetch(`${process.env.REACT_APP_DB}/users.json` || "")
+    
     const navigate = useNavigate()
     const { checkIfUserExists, login } = useAuthContext()
 
@@ -41,37 +26,18 @@ const SignUp: React.FC = () => {
     }
 
     const onConfirmPasswordChanged = (value: string) => {
-        setConfirmPassword(value)
+        setConfirmedPassword(value)
     }
 
     const signUp = useCallback(() => {
-        if(checkIfUserExists(email)){
-            setErrors(prev => {
-                return {
-                    ...prev,
-                    email: "User exists. Please sign In"
-                }
-            })
-        } else {
+        const isFormValid = validate({email, password})
+        if(isFormValid && !checkIfUserExists(users, email)){
             login()
             navigate("/dashboard")
+        } else {
+            alert("User already exists. Please Sign In")
         }
-    }, [checkIfUserExists, login, navigate, email])
-
-    const handleSubmit = useCallback(() => {
-        const emailError = !email.length ? emailMessage : ""
-        const passwordError = password.length && password === confirmPassword ? "" : password !== confirmPassword ? confirmPasswordMessage : passwordMessage
-
-        setErrors({
-            email: emailError,
-            password: passwordError
-        })
-
-        if(!emailError && !passwordError){
-            submit(email, signUp)
-        }
-
-    }, [email, password, confirmPassword, signUp])
+    }, [login, navigate, email, password, checkIfUserExists, users])
 
     return (
         <AuthLayout>
@@ -86,9 +52,9 @@ const SignUp: React.FC = () => {
                             <Input value={password} onChange={onPasswordChanged} placeholder="Please enter your password"/>
                         </FormItem>
                         <FormItem label="Confirm Password">
-                            <Input value={confirmPassword} onChange={onConfirmPasswordChanged} placeholder="Please repeat your password"/>
+                            <Input value={confirmedPassword} onChange={onConfirmPasswordChanged} placeholder="Please repeat your password"/>
                         </FormItem>
-                        <Button onClick={handleSubmit} type="button">
+                        <Button onClick={signUp} type="button">
                             Sign Up
                         </Button>
                     </div>

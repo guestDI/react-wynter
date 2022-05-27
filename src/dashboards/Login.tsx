@@ -5,19 +5,16 @@ import AuthLayout from "../components/AuthLayout";
 import { StyledForm, StyledFormHeader, StyledSeparator } from "../components/StyledComponentsBase";
 import { useNavigate } from "react-router-dom"
 import { useAuthContext } from "../context/AuthContext";
-
-const emailMessage = "Incorrect email"
-const passwordMessage = "Incorrect password"
+import { useFetch, useValidate } from "../hooks";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
-    const [errors, setErrors] = useState({
-        email: "",
-        password: ""
-    })
+    const { data: users } = useFetch(`${process.env.REACT_APP_DB}/users.json` || "")
+
     const { checkIfUserExists, login } = useAuthContext()
+    const { errors, validate } = useValidate()
 
     const onEmailChanged = (value: string) => {
         setEmail(value)
@@ -27,25 +24,17 @@ const Login: React.FC = () => {
         setPassword(value)
     }
 
-    const logIn = useCallback(() => {
-        const emailError = !email.length ? emailMessage : ""
-        const passwordError = !password.length ? passwordMessage : ""
+    const handleLogIn = useCallback(() => {
+        const isFormValid = validate({email, password})
 
-        setErrors({
-            email: emailError,
-            password: passwordError
-        })
-
-        if(!checkIfUserExists(email)){
-            setErrors({
-                password: "",
-                email: "User doesn't exists. Please sign up"
-            })
-        } else {
+        if(isFormValid && checkIfUserExists(users, email)){
             login()
             navigate("/dashboard")
+        } else {
+            //ugly notification to notify that user doesn't exist
+            alert("User doesn't exist. Please Sign up")
         }
-    }, [checkIfUserExists, login, navigate, password.length, email])
+    }, [validate, email, password, login, navigate, checkIfUserExists, users])
 
     const onSuccess = (response: any) => {
         console.log(response, "success")
@@ -67,7 +56,7 @@ const Login: React.FC = () => {
                         <FormItem label="Password" error={errors.password}>
                             <Input value={password} onChange={onPasswordChanged} placeholder="Please enter your password"/>
                         </FormItem>
-                        <Button onClick={logIn} type="button">
+                        <Button onClick={handleLogIn} type="button">
                             Log in
                         </Button>
                     </div>
