@@ -5,7 +5,6 @@ import AuthLayout from "../components/AuthLayout";
 import { StyledForm, StyledFormHeader, StyledSeparator } from "../components/StyledComponentsBase";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useFetch } from "../hooks";
 
 const emailMessage = "Incorrect email"
 const passwordMessage = "Incorrect password"
@@ -31,9 +30,7 @@ const SignUp: React.FC = () => {
         password: ""
     })
     const navigate = useNavigate()
-    const { login } = useAuthContext()
-
-    const { data: users } = useFetch(`${process.env.REACT_APP_DB}/users.json` || "");
+    const { checkIfUserExists, login } = useAuthContext()
 
     const onEmailChanged = (value: string) => {
         setEmail(value)
@@ -48,19 +45,18 @@ const SignUp: React.FC = () => {
     }
 
     const signUp = useCallback(() => {
-        const userExists = Object.values(users).find((user: Record<string, string>) => {
-           return user.email === email
-        })
-
-        console.log(userExists)
-
-        if(userExists){
-            navigate("/")
+        if(checkIfUserExists(email)){
+            setErrors(prev => {
+                return {
+                    ...prev,
+                    email: "User exists. Please sign In"
+                }
+            })
         } else {
             login()
             navigate("/dashboard")
         }
-    }, [users, login, navigate, email])
+    }, [checkIfUserExists, login, navigate, email])
 
     const handleSubmit = useCallback(() => {
         const emailError = !email.length ? emailMessage : ""
