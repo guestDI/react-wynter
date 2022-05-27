@@ -45,7 +45,15 @@ const Login: React.FC = () => {
             login()
             navigate("/dashboard")
         }
-    }, [checkIfUserExists, login, navigate, email])
+    }, [checkIfUserExists, login, navigate, password.length, email])
+
+    const onSuccess = (response: any) => {
+        console.log(response, "success")
+    }
+
+    const onFailure = (response: any) => {
+        console.log(response, "failure")
+    }
 
     return (
         <AuthLayout>
@@ -59,7 +67,7 @@ const Login: React.FC = () => {
                         <FormItem label="Password" error={errors.password}>
                             <Input value={password} onChange={onPasswordChanged} placeholder="Please enter your password"/>
                         </FormItem>
-                        <Button onClick={logIn}>
+                        <Button onClick={logIn} type="button">
                             Log in
                         </Button>
                     </div>
@@ -69,10 +77,10 @@ const Login: React.FC = () => {
                 <StyledSeparator>LOG IN WITH GOOGLE</StyledSeparator>
                 <div className="btn-container">
                     <GoogleLogin
-                        clientId="611176137432-nuq0crbc6gic387rb0pu4clglb2n7hrq.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_CLIENT_ID!}
                         buttonText="Log in with Google"
-                        onSuccess={(e) => {console.log(e, 'success')}}
-                        onFailure={(e) => {console.log(e, 'failure')}}
+                        onSuccess={onSuccess}
+                        onFailure={onFailure}
                         cookiePolicy={'single_host_origin'} 
                         className="google-btn"
                     />

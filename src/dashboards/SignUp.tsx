@@ -71,7 +71,7 @@ const SignUp: React.FC = () => {
             submit(email, signUp)
         }
 
-    }, [email, password, confirmPassword, navigate])
+    }, [email, password, confirmPassword, signUp])
 
     return (
         <AuthLayout>
@@ -88,7 +88,7 @@ const SignUp: React.FC = () => {
                         <FormItem label="Confirm Password">
                             <Input value={confirmPassword} onChange={onConfirmPasswordChanged} placeholder="Please repeat your password"/>
                         </FormItem>
-                        <Button onClick={handleSubmit}>
+                        <Button onClick={handleSubmit} type="button">
                             Sign Up
                         </Button>
                     </div>
@@ -98,7 +98,7 @@ const SignUp: React.FC = () => {
                 <StyledSeparator>SIGN UP WITH GOOGLE</StyledSeparator>
                 <div className="btn-container">
                     <GoogleLogin
-                        clientId="611176137432-nuq0crbc6gic387rb0pu4clglb2n7hrq.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_CLIENT_ID!}
                         buttonText="Sign up with Google"
                         onSuccess={() => {console.log('success')}}
                         onFailure={() => {}}
